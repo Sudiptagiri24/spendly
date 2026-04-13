@@ -98,4 +98,60 @@
     </div>
 </section>
 
+<!-- Video Modal -->
+<div id="video-modal" class="modal-overlay">
+    <div class="modal-container">
+        <button class="modal-close" aria-label="Close modal">&times;</button>
+        <div class="modal-video-wrapper">
+            <iframe id="modal-video" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function() {
+    const modal = document.getElementById('video-modal');
+    const videoIframe = document.getElementById('modal-video');
+    const closeBtn = modal.querySelector('.modal-close');
+    const triggerBtn = document.querySelector('a[href="#how-it-works"]');
+
+    // YouTube video URL - replace with your actual video ID
+    const videoUrl = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1';
+
+    // Open modal
+    triggerBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        videoIframe.src = videoUrl;
+        modal.classList.add('modal-open');
+        document.body.style.overflow = 'hidden';
+    });
+
+    // Close modal function
+    function closeModal() {
+        videoIframe.src = '';
+        modal.classList.remove('modal-open');
+        document.body.style.overflow = '';
+    }
+
+    // Close on button click
+    closeBtn.addEventListener('click', closeModal);
+
+    // Close on overlay click
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('modal-open')) {
+            closeModal();
+        }
+    });
+})();
+</script>
 {% endblock %}
